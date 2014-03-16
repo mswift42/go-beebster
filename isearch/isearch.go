@@ -4,6 +4,7 @@ import (
         "fmt"
         "os/exec"
         "regexp"
+        "strings"
 )
 
 type Ipsearch struct {
@@ -23,6 +24,8 @@ func main() {
         cats := newCategory("legal")
         fmt.Println(cats.searchterm)
         fmt.Println(cats.ThumbNail())
+        fmt.Println(cats.Index())
+        cats.Title()
 
 }
 func newSearch(s string) *Ipsearch {
@@ -33,7 +36,9 @@ func newSearch(s string) *Ipsearch {
         if err != nil {
                 panic(err)
         }
-        return &Ipsearch{searchterm: string(isoOut)}
+        inf := regexp.MustCompile(`INFO`)
+        infpos := inf.FindStringIndex(string(isoOut))
+        return &Ipsearch{searchterm: string(isoOut)[:(infpos[0])]}
 }
 func newCategory(cat string) *Catsearch {
         search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
@@ -43,10 +48,41 @@ func newCategory(cat string) *Catsearch {
         if err != nil {
                 panic(err)
         }
-        return &Catsearch{Ipsearch{searchterm: string(catOut)}}
+        inf := regexp.MustCompile(`INFO`)
+        infpos := inf.FindStringIndex(string(catOut))
+        return &Catsearch{Ipsearch{searchterm: string(catOut)[:(infpos[0])]}}
 }
 
 func (ip *Ipsearch) ThumbNail() []string {
         re := regexp.MustCompile("http.*jpg")
         return re.FindAllString(ip.searchterm, -1)
+}
+
+func (ip *Ipsearch) Index() []string {
+        re := regexp.MustCompile(`"[0-9]*`)
+        s := re.FindAllString(ip.searchterm, -1)
+        result := make([]string, 0)
+        for _, i := range s {
+                i = strings.TrimSpace(i[1:])
+                result = append(result, i)
+        }
+        return removeEmpty(result)
+}
+
+func (ip *Ipsearch) Title() {
+        re := regexp.MustCompile(`(\s[A-Z0-9].[^"]*)`)
+        inf := regexp.MustCompile(`INFO`)
+        infpos := inf.FindStringIndex(ip.searchterm)
+        fmt.Println(infpos)
+        s := re.FindAllString(ip.searchterm, -1)
+        fmt.Println(removeEmpty(s))
+}
+func removeEmpty(s []string) []string {
+        empty := make([]string, 0)
+        for _, i := range s {
+                if i != "" {
+                        empty = append(empty, i)
+                }
+        }
+        return empty
 }
