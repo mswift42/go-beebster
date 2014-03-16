@@ -19,13 +19,14 @@ type Catsearch struct {
 }
 
 func main() {
-        newsearch := newSearch("silk")
+        newsearch := newSearch("pramface")
         fmt.Println(newsearch.searchterm)
         cats := newCategory("legal")
         fmt.Println(cats.searchterm)
         fmt.Println(cats.ThumbNail())
         fmt.Println(cats.Index())
         cats.Title()
+        fmt.Println(newsearch.Title())
 
 }
 func newSearch(s string) *Ipsearch {
@@ -69,13 +70,10 @@ func (ip *Ipsearch) Index() []string {
         return removeEmpty(result)
 }
 
-func (ip *Ipsearch) Title() {
+func (ip *Ipsearch) Title() []string {
         re := regexp.MustCompile(`(\s[A-Z0-9].[^"]*)`)
-        inf := regexp.MustCompile(`INFO`)
-        infpos := inf.FindStringIndex(ip.searchterm)
-        fmt.Println(infpos)
         s := re.FindAllString(ip.searchterm, -1)
-        fmt.Println(removeEmpty(s))
+        return removeEmpty(s)
 }
 func removeEmpty(s []string) []string {
         empty := make([]string, 0)
