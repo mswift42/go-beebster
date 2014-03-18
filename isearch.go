@@ -10,7 +10,7 @@ import (
 // Ipsearch struct - contains the get_iplayer output
 // for a name-search, e.g. get_iplayer "silk"
 type Ipsearch struct {
-        searchterm string
+        searchterm []string
 }
 
 // Catsearch struct: - contains the get_iplayer output
@@ -49,7 +49,8 @@ func newSearch(s string) *Ipsearch {
         }
         inf := regexp.MustCompile(`INFO`)
         infpos := inf.FindStringIndex(string(isoOut))
-        return &Ipsearch{searchterm: string(isoOut)[:(infpos[0])]}
+        isoOutslice := strings.Split(string(isoOut)[:infpos[0]], "\n")
+        return &Ipsearch{searchterm: isoOutslice}
 }
 func newCategory(cat string) *Catsearch {
         search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
@@ -61,34 +62,42 @@ func newCategory(cat string) *Catsearch {
         }
         inf := regexp.MustCompile(`INFO`)
         infpos := inf.FindStringIndex(string(catOut))
-        return &Catsearch{Ipsearch{searchterm: string(catOut)[:(infpos[0])]}}
+        catOutslice := strings.Split(string(catOut)[:infpos[0]], "\n")
+        return &Catsearch{Ipsearch{searchterm: catOutslice}}
+}
+func applySearch(s []string, pat string) []string {
+        re := regexp.MustCompile(pat)
+        result := make([]string, 0)
+        for _, i := range s {
+                result = append(result, re.FindString(i))
+        }
+        return result
 }
 
 // ThumbNail - return string of thumbnail url in search result.
 func (ip *Ipsearch) ThumbNail() []string {
-        re := regexp.MustCompile("http.*jpg")
-        return re.FindAllString(ip.searchterm, -1)
+        pat := "http.*jpg"
+        return (applySearch(ip.searchterm, pat))
 }
 
 // Index - return string of the index in search result in
 // form of digits.
 func (ip *Ipsearch) Index() []string {
-        re := regexp.MustCompile(`"[0-9]*`)
-        s := re.FindAllString(ip.searchterm, -1)
-        result := make([]string, 0)
-        for _, i := range s {
-                i = strings.TrimSpace(i[1:])
-                result = append(result, i)
-        }
-        return removeEmpty(result)
+        pat := (`"[0-9]*`)
+        // s := re.FindString(ip.searchterm, -1)
+        // result := make([]string, 0)
+        // for _, i := range s {
+        //         i = strings.TrimSpace(i[1:])
+        //         result = append(result, i)
+        // }
+        return applySearch(ip.searchterm, pat)
 }
 
 // Title return string of the programmes title
 // in the search result.
 func (ip *Ipsearch) Title() []string {
-        re := regexp.MustCompile(`(\s[A-Z0-9].[^"]*)`)
-        s := re.FindAllString(ip.searchterm, -1)
-        return removeEmpty(s)
+        pat := (`(\s[A-Z0-9].[^"]*)`)
+        return applySearch(ip.searchterm, pat)
 }
 func removeEmpty(s []string) []string {
         empty := make([]string, 0)
