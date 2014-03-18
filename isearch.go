@@ -84,13 +84,13 @@ func (ip *Ipsearch) ThumbNail() []string {
 // form of digits.
 func (ip *Ipsearch) Index() []string {
         pat := (`"[0-9]*`)
-        // s := re.FindString(ip.searchterm, -1)
-        // result := make([]string, 0)
-        // for _, i := range s {
-        //         i = strings.TrimSpace(i[1:])
-        //         result = append(result, i)
-        // }
-        return applySearch(ip.searchterm, pat)
+        slice := applySearch(ip.searchterm, pat)
+        result := make([]string, 0)
+        for _, i := range slice {
+                result = append(result, (strings.Replace(i, "\"", "", -1)))
+        }
+
+        return result
 }
 
 // Title return string of the programmes title
