@@ -7,12 +7,6 @@ import (
         "strings"
 )
 
-// // Ipsearch struct - contains the get_iplayer output
-// // for a name-search, e.g. get_iplayer "silk"
-// type Ipsearch struct {
-//         searchterm []string
-// }
-
 // Searchresult struct - holds for each searchresult
 // title of programme, thumbnail url, and the programmes'
 // iplayer index.
