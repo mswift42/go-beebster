@@ -13,12 +13,6 @@ type Ipsearch struct {
         searchterm []string
 }
 
-// Catsearch struct: - contains the get_iplayer output
-// for a category search, e.g. get_iplayer --category "films"
-type Catsearch struct {
-        Ipsearch
-}
-
 // Searchresult struct - holds for each searchresult
 // title of programme, thumbnail url, and the programmes'
 // iplayer index.
