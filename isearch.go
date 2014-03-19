@@ -67,21 +67,6 @@ func searchResult(s map[string]string) (string, error) {
         return string(isoOut), err
 }
 
-// func newCategory(cat string) *Catsearch {
-//         search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
-//                 "--listformat", "\"<index> <thumbnail> <name> <episode>\"",
-//                 "--category", cat)
-//         catOut, err := search.Output()
-//         if err != nil {
-//                 panic(err)
-//         }
-//         inf := regexp.MustCompile(`INFO`)
-//         infpos := inf.FindStringIndex(string(catOut))
-//         catOutslice := strings.Split(
-//                 strings.Replace(string(catOut)[:infpos[0]], "Matches:",
-//                         "", 1), "\n")
-//         return &Catsearch{Ipsearch{searchterm: catOutslice}}
-//}
 func applySearch(s []string, pat string) []string {
         re := regexp.MustCompile(pat)
         result := make([]string, 0)
