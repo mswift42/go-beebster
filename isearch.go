@@ -29,42 +29,59 @@ type Searchresult struct {
 }
 
 func main() {
-        newsearch := newSearch("pramface")
+        newsearch := newSearch(map[string]string{"category": "", "searchvalue": "pramface"})
         fmt.Println(newsearch.searchterm)
-        cats := newCategory("legal")
+        cats := newSearch(map[string]string{"category": "sitcom"})
         fmt.Println(cats.searchterm)
         fmt.Println(cats.ThumbNail())
         fmt.Println(cats.Index())
         cats.Title()
         fmt.Println(newsearch.Title())
+        newcats := newSearch(map[string]string{"category": "films"})
+        fmt.Println(newcats.Title())
 
 }
-func newSearch(s string) *Ipsearch {
-        search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
-                "--listformat", "\"<index> <thumbnail> <name> <episode>\"",
-                s)
-        isoOut, err := search.Output()
+func newSearch(s map[string]string) *Ipsearch {
+        isoOut, err := searchResult(s)
         if err != nil {
                 panic(err)
         }
         inf := regexp.MustCompile(`INFO`)
         infpos := inf.FindStringIndex(string(isoOut))
-        isoOutslice := strings.Split(string(isoOut)[:infpos[0]], "\n")
+        isoOutslice := strings.Split(
+                strings.Replace(string(isoOut)[:infpos[0]], "Matches:", "", 1), "\n")
         return &Ipsearch{searchterm: isoOutslice}
 }
-func newCategory(cat string) *Catsearch {
+func searchResult(s map[string]string) (string, error) {
+        if s["category"] == "" {
+                search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
+                        "--listformat", "\"<index> <thumbnail> <name> <episode>\"",
+                        s["searchvalue"])
+                isoOut, err := search.Output()
+                return string(isoOut), err
+        }
         search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
                 "--listformat", "\"<index> <thumbnail> <name> <episode>\"",
-                "--category", cat)
-        catOut, err := search.Output()
-        if err != nil {
-                panic(err)
-        }
-        inf := regexp.MustCompile(`INFO`)
-        infpos := inf.FindStringIndex(string(catOut))
-        catOutslice := strings.Split(string(catOut)[:infpos[0]], "\n")
-        return &Catsearch{Ipsearch{searchterm: catOutslice}}
+                "--category", s["category"])
+        isoOut, err := search.Output()
+        return string(isoOut), err
 }
+
+// func newCategory(cat string) *Catsearch {
+//         search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
+//                 "--listformat", "\"<index> <thumbnail> <name> <episode>\"",
+//                 "--category", cat)
+//         catOut, err := search.Output()
+//         if err != nil {
+//                 panic(err)
+//         }
+//         inf := regexp.MustCompile(`INFO`)
+//         infpos := inf.FindStringIndex(string(catOut))
+//         catOutslice := strings.Split(
+//                 strings.Replace(string(catOut)[:infpos[0]], "Matches:",
+//                         "", 1), "\n")
+//         return &Catsearch{Ipsearch{searchterm: catOutslice}}
+//}
 func applySearch(s []string, pat string) []string {
         re := regexp.MustCompile(pat)
         result := make([]string, 0)
@@ -88,6 +105,7 @@ func (ip *Ipsearch) Index() []string {
         result := make([]string, 0)
         for _, i := range slice {
                 result = append(result, (strings.Replace(i, "\"", "", -1)))
+
         }
 
         return result
