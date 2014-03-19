@@ -7,11 +7,11 @@ import (
         "strings"
 )
 
-// Ipsearch struct - contains the get_iplayer output
-// for a name-search, e.g. get_iplayer "silk"
-type Ipsearch struct {
-        searchterm []string
-}
+// // Ipsearch struct - contains the get_iplayer output
+// // for a name-search, e.g. get_iplayer "silk"
+// type Ipsearch struct {
+//         searchterm []string
+// }
 
 // Searchresult struct - holds for each searchresult
 // title of programme, thumbnail url, and the programmes'
@@ -65,34 +65,6 @@ func searchResult(s map[string]string) (string, error) {
         return string(isoOut), err
 }
 
-func applySearch(s []string, pat string) []string {
-        re := regexp.MustCompile(pat)
-        result := make([]string, 0)
-        for _, i := range s {
-                result = append(result, re.FindString(i))
-        }
-        return result
-}
-
-// ThumbNail - return string of thumbnail url in search result.
-func (ip *Ipsearch) ThumbNail() []string {
-        pat := "http.*jpg"
-        return (applySearch(ip.searchterm, pat))
-}
-
-// Index - return string of the index in search result in
-// form of digits.
-func (ip *Ipsearch) Index() []string {
-        pat := (`"[0-9]*`)
-        slice := applySearch(ip.searchterm, pat)
-        result := make([]string, 0)
-        for _, i := range slice {
-                result = append(result, (strings.Replace(i, "\"", "", -1)))
-
-        }
-
-        return result
-}
 func index(s string) string {
         re := regexp.MustCompile(`[0-9]*`)
         return re.FindString(s)
@@ -106,11 +78,4 @@ func title(s string) string {
 func thumbnail(s string) string {
         re := regexp.MustCompile("http.*jpg")
         return re.FindString(s)
-}
-
-// Title return string of the programmes title
-// in the search result.
-func (ip *Ipsearch) Title() []string {
-        pat := (`(\s[A-Z0-9].[^"]*)`)
-        return applySearch(ip.searchterm, pat)
 }
