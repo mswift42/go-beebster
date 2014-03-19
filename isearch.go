@@ -23,12 +23,13 @@ func main() {
         fmt.Println(newsearch)
         fmt.Println(cats)
         fmt.Println(newcats)
-        fmt.Println(index("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
-        fmt.Println(title("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
-        fmt.Println(thumbnail("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
-
 }
-func newSearch(s map[string]string) []Searchresult {
+
+// NewSearch - takes a map that contains either the category to search for, e.g. films,
+// or a searchstring to run the get_iplayer command with.
+// for every found match, a Searchresult struct gets initialized with the
+// index, thumbnail and title for the given match.
+func NewSearch(s map[string]string) []Searchresult {
         isoOut, err := searchResult(s)
         if err != nil {
                 panic(err)
