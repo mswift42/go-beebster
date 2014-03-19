@@ -117,12 +117,3 @@ func (ip *Ipsearch) Title() []string {
         pat := (`(\s[A-Z0-9].[^"]*)`)
         return applySearch(ip.searchterm, pat)
 }
-func removeEmpty(s []string) []string {
-        empty := make([]string, 0)
-        for _, i := range s {
-                if i != "" {
-                        empty = append(empty, i)
-                }
-        }
-        return empty
-}
