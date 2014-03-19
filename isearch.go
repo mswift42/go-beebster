@@ -24,21 +24,17 @@ type Searchresult struct {
 
 func main() {
         newsearch := newSearch(map[string]string{"category": "", "searchvalue": "pramface"})
-        fmt.Println(newsearch.searchterm)
         cats := newSearch(map[string]string{"category": "legal"})
-        fmt.Println(cats.searchterm)
-        fmt.Println(cats.ThumbNail())
-        fmt.Println(cats.Index())
-        fmt.Println(cats.Title())
-        fmt.Println(newsearch.Title())
         newcats := newSearch(map[string]string{"category": "films"})
-        fmt.Println(newcats.Title())
+        fmt.Println(newsearch)
+        fmt.Println(cats)
+        fmt.Println(newcats)
         fmt.Println(index("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
         fmt.Println(title("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
         fmt.Println(thumbnail("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
 
 }
-func newSearch(s map[string]string) *Ipsearch {
+func newSearch(s map[string]string) []Searchresult {
         isoOut, err := searchResult(s)
         if err != nil {
                 panic(err)
@@ -47,7 +43,12 @@ func newSearch(s map[string]string) *Ipsearch {
         infpos := inf.FindStringIndex(string(isoOut))
         isoOutslice := strings.Split(
                 strings.Replace(string(isoOut)[:infpos[0]], "Matches:", "", 1), "\n")
-        return &Ipsearch{searchterm: isoOutslice}
+        result := make([]Searchresult, 0)
+        for _, i := range isoOutslice {
+                new := Searchresult{title: title(i), index: index(i), thumbnail: thumbnail(i)}
+                result = append(result, new)
+        }
+        return result
 }
 func searchResult(s map[string]string) (string, error) {
         if s["category"] == "" {
