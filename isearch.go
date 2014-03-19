@@ -25,14 +25,17 @@ type Searchresult struct {
 func main() {
         newsearch := newSearch(map[string]string{"category": "", "searchvalue": "pramface"})
         fmt.Println(newsearch.searchterm)
-        cats := newSearch(map[string]string{"category": "sitcom"})
+        cats := newSearch(map[string]string{"category": "legal"})
         fmt.Println(cats.searchterm)
         fmt.Println(cats.ThumbNail())
         fmt.Println(cats.Index())
-        cats.Title()
+        fmt.Println(cats.Title())
         fmt.Println(newsearch.Title())
         newcats := newSearch(map[string]string{"category": "films"})
         fmt.Println(newcats.Title())
+        fmt.Println(index("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
+        fmt.Println(title("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
+        fmt.Println(thumbnail("871 http://www.bbc.co.uk/iplayer/images/episode/b03ws0yr_150_84.jpg Pramface: Series 3 1. I'm Excited Too!"))
 
 }
 func newSearch(s map[string]string) *Ipsearch {
@@ -49,13 +52,13 @@ func newSearch(s map[string]string) *Ipsearch {
 func searchResult(s map[string]string) (string, error) {
         if s["category"] == "" {
                 search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
-                        "--listformat", "\"<index> <thumbnail> <name> <episode>\"",
+                        "--listformat", "<index> <thumbnail> <name> <episode>",
                         s["searchvalue"])
                 isoOut, err := search.Output()
                 return string(isoOut), err
         }
         search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
-                "--listformat", "\"<index> <thumbnail> <name> <episode>\"",
+                "--listformat", "<index> <thumbnail> <name> <episode>",
                 "--category", s["category"])
         isoOut, err := search.Output()
         return string(isoOut), err
@@ -88,6 +91,20 @@ func (ip *Ipsearch) Index() []string {
         }
 
         return result
+}
+func index(s string) string {
+        re := regexp.MustCompile(`[0-9]*`)
+        return re.FindString(s)
+}
+func title(s string) string {
+        re := regexp.MustCompile("jpg [A-Z0-9].*")
+        prelim := re.FindString(s)
+        re = regexp.MustCompile("[A-Z0-9].*")
+        return re.FindString(prelim)
+}
+func thumbnail(s string) string {
+        re := regexp.MustCompile("http.*jpg")
+        return re.FindString(s)
 }
 
 // Title return string of the programmes title
