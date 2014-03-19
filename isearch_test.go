@@ -28,3 +28,13 @@ func TestThumbnail(t *testing.T) {
                 t.Error("Expected http://www.bbc.co.uk/iplayer/images/episode/b03xkk94_150_84.jpg, got ", t2)
         }
 }
+
+func TestTitle(t *testing.T) {
+        t1 := title(rstring1)
+        t2 := title(rstring2)
+        if t1 != "Silk: Series 3 Episode 1" {
+                t.Error("Expeced Silk: Series 3 Episode 1, got: ", t1)
+        } else if t2 != "Silk: Series 3 Episode 2" {
+                t.Error("Expected Silk: Series 3 Episode 2, got: ", t2)
+        }
+}
