@@ -11,15 +11,16 @@ import (
 // title of programme, thumbnail url, and the programmes'
 // iplayer index.
 type Searchresult struct {
-        title     string
-        thumbnail string
-        index     string
+        title         string
+        thumbnail     string
+        index         string
+        oldrecordings string
 }
 
 func main() {
-        newsearch := newSearch(map[string]string{"category": "", "searchvalue": "pramface"})
-        cats := newSearch(map[string]string{"category": "legal"})
-        newcats := newSearch(map[string]string{"category": "films"})
+        newsearch := NewSearch(map[string]string{"category": "", "searchvalue": "pramface"})
+        cats := NewSearch(map[string]string{"category": "legal"})
+        newcats := NewSearch(map[string]string{"category": "films"})
         fmt.Println(newsearch)
         fmt.Println(cats)
         fmt.Println(newcats)
@@ -45,15 +46,22 @@ func NewSearch(s map[string]string) []Searchresult {
         }
         return result
 }
+
+// searchResults - helper fn for NewSearch.
+// if given map contains a category, run the iplayer cmd
+// with --category <category>
+// else invoke iplayer search with s["category":"","searchvalue":<searchterm>
 func searchResult(s map[string]string) (string, error) {
         if s["category"] == "" {
-                search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
+                search := exec.Command("get_iplayer", "--nocopyright",
+                        "--limitmatches", "50",
                         "--listformat", "<index> <thumbnail> <name> <episode>",
                         s["searchvalue"])
                 isoOut, err := search.Output()
                 return string(isoOut), err
         }
-        search := exec.Command("get_iplayer", "--nocopyright", "--limitmatches", "50",
+        search := exec.Command("get_iplayer", "--nocopyright",
+                "--limitmatches", "50",
                 "--listformat", "<index> <thumbnail> <name> <episode>",
                 "--category", s["category"])
         isoOut, err := search.Output()
