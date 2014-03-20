@@ -24,6 +24,7 @@ func main() {
         fmt.Println(newsearch)
         fmt.Println(cats)
         fmt.Println(newcats)
+        RunServer()
 }
 
 // NewSearch - takes a map that contains either the category to search for, e.g. films,
