@@ -17,6 +17,8 @@ type Searchresult struct {
         oldrecordings string
 }
 
+// Category struct - holds name of an iplayer category
+// plus the get-request url, e.g. ?category=<name>
 type Category struct {
         name string
         url  string
@@ -89,6 +91,10 @@ func thumbnail(s string) string {
         re := regexp.MustCompile("http.*jpg")
         return re.FindString(s)
 }
+
+// Categories - Array with iplayer categories.
+var Categories = []string{"popular", "highlights", "films", "nature", "crime",
+        "sitcom", "thriller", "legal", "sport"}
 
 // NewCategory - takes a description of a iplayer category.
 // Returns a new instance of struct category with the name and
