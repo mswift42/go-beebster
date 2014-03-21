@@ -38,3 +38,17 @@ func TestTitle(t *testing.T) {
                 t.Error("Expected Silk: Series 3 Episode 2, got: ", t2)
         }
 }
+
+func TestCategory(t *testing.T) {
+        t1 := NewCategory("films")
+        t2 := NewCategory("drama")
+        if t1.name != "films" {
+                t.Error("Expected <films>, got: ", t1.name)
+        } else if t1.url != "?category=films" {
+                t.Error("Expected <?category=films>, got: ", t1.url)
+        } else if t2.name != "drama" {
+                t.Error("Expected <drama>, got: ", t2.name)
+        } else if t2.url != "?category=drama" {
+                t.Error("Expected <?category=drama>, got: ", t2.url)
+        }
+}
