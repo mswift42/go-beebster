@@ -10,6 +10,9 @@ func RunServer() {
         m := martini.Classic()
         m.Use(render.Renderer(render.Options{Layout: "layout",
                 Directory: "templates"}))
+        m.Get("/", func(r render.Render) {
+                r.HTML(200, "index", cats)
+        })
         m.Get("/about", func(r render.Render) {
                 r.HTML(200, "about", cats)
 
