@@ -20,19 +20,21 @@ type Searchresult struct {
 // Category struct - holds name of an iplayer category
 // plus the get-request url, e.g. ?category=<name>
 type Category struct {
-        name string
-        url  string
+        Name string
+        Url  string
 }
 
 func main() {
-        newsearch := NewSearch(map[string]string{"category": "", "searchvalue": "pramface"})
-        cats := NewSearch(map[string]string{"category": "legal"})
-        newcats := NewSearch(map[string]string{"category": "films"})
-        fmt.Println(newsearch)
-        fmt.Println(cats)
-        fmt.Println(newcats)
-        fmt.Println(NewCategory("films"))
-        //        RunServer()
+        // newsearch := NewSearch(map[string]string{"category": "", "searchvalue": "pramface"})
+        // cats := NewSearch(map[string]string{"category": "legal"})
+        // newcats := NewSearch(map[string]string{"category": "films"})
+        // fmt.Println(newsearch)
+        // fmt.Println(cats)
+        // fmt.Println(newcats)
+        fmt.Println(Categoryinit())
+        fmt.Println(Categoryinit()[0])
+
+        RunServer()
 }
 
 // NewSearch - takes a map that contains either the category to search for, e.g. films,
@@ -99,8 +101,10 @@ var Categories = []string{"popular", "highlights", "films", "nature", "crime",
 // NewCategory - takes a description of a iplayer category.
 // Returns a new instance of struct category with the name and
 // the url for a category, e.g. *Category{name:"films",url:"?category=films"}
-func NewCategory(s string) *Category {
-        cat := Category{name: s,
-                url: ("?category=" + s)}
-        return &cat
+func Categoryinit() []Category {
+        result := make([]Category, len(Categories))
+        for i, name := range Categories {
+                result[i] = Category{Name: name, Url: ("/?category=" + name)}
+        }
+        return result
 }
