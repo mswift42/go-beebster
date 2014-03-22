@@ -6,9 +6,17 @@ import (
 )
 
 func RunServer() {
+        cats := Categoryinit()
         m := martini.Classic()
-        m.Get("/", func() string {
-                return "Hello World!"
+        m.Use(render.Renderer(render.Options{Layout: "layout",
+                Directory: "templates"}))
+        m.Get("/about", func(r render.Render) {
+                r.HTML(200, "about", cats)
+
         })
+        // m.Get("/about", func(r render.Render) {
+        //         return "Hallo"
+        // })
+
         m.Run()
 }
