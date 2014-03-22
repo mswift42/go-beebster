@@ -12,6 +12,12 @@
                             <li class="active navbar-left">
                               <a href="/about">About</a>
                             </li>
+                            {{range .}}
+                            <li class="active navbar-right">
+                              <a href='{{.Url}}'>{{.Name}}</a>
+                            </li>
+                            {{end}}
+
               </ul>
          </div>
     </div>
