@@ -100,9 +100,9 @@ func thumbnail(s string) string {
 var Categories = []string{"popular", "highlights", "films", "nature", "crime",
         "sitcom", "thriller", "legal", "sport"}
 
-// NewCategory - takes a description of a iplayer category.
-// Returns a new instance of struct category with the name and
-// the url for a category, e.g. *Category{name:"films",url:"?category=films"}
+// Categoryinit - iterate over Categoriesarray. For every
+// string, build a Category struct with Name and Url
+// instances, and collect them.
 func Categoryinit() []Category {
         result := make([]Category, len(Categories))
         for i, name := range Categories {
