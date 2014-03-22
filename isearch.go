@@ -53,7 +53,9 @@ func NewSearch(s map[string]string) []Searchresult {
         result := make([]Searchresult, 0)
         for _, i := range isoOutslice {
                 new := Searchresult{title: title(i), index: index(i), thumbnail: thumbnail(i)}
-                result = append(result, new)
+                if new != (Searchresult{}) {
+                        result = append(result, new)
+                }
         }
         return result
 }
@@ -104,7 +106,7 @@ var Categories = []string{"popular", "highlights", "films", "nature", "crime",
 func Categoryinit() []Category {
         result := make([]Category, len(Categories))
         for i, name := range Categories {
-                result[i] = Category{Name: name, Url: ("/?category=" + name)}
+                result[i] = Category{Name: name, Url: ("/results?category=" + name)}
         }
         return result
 }
