@@ -40,15 +40,13 @@ func TestTitle(t *testing.T) {
 }
 
 func TestCategory(t *testing.T) {
-        t1 := NewCategory("films")
-        t2 := NewCategory("drama")
-        if t1.name != "films" {
-                t.Error("Expected <films>, got: ", t1.name)
-        } else if t1.url != "?category=films" {
-                t.Error("Expected <?category=films>, got: ", t1.url)
-        } else if t2.name != "drama" {
-                t.Error("Expected <drama>, got: ", t2.name)
-        } else if t2.url != "?category=drama" {
-                t.Error("Expected <?category=drama>, got: ", t2.url)
+        var t1 = Categoryinit()
+        t2 := Categoryinit()
+        t1name := t1[0]
+        t2first := t2[0]
+        if t1name.name != "popular" {
+                t.Error("Expected <popular>, got: ", t1name.Name)
+        } else if t2first.url != "/?category=popular" {
+                t.Error("Expected <?category=popular>, got: ", t2first.Url)
         }
 }
