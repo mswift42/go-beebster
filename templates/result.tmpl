@@ -1,0 +1,15 @@
+<div class="rtable">
+  {{range .out}}
+  <div class="table">
+    <div class="tablecell">
+      <div class="t1">
+        <a href={{.index}}>{{.title}}</a>
+        <img class="img" src={{.thumbnail}} alt={{.title}}/>
+      </div>
+      <div class="imgtitle">
+        {{.title}}
+      </div>
+    </div>
+  </div>
+  {{end}}
+</div>
