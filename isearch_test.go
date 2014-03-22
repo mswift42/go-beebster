@@ -44,9 +44,9 @@ func TestCategory(t *testing.T) {
         t2 := Categoryinit()
         t1name := t1[0]
         t2first := t2[0]
-        if t1name.name != "popular" {
+        if t1name.Name != "popular" {
                 t.Error("Expected <popular>, got: ", t1name.Name)
-        } else if t2first.url != "/?category=popular" {
+        } else if t2first.Url != "/?category=popular" {
                 t.Error("Expected <?category=popular>, got: ", t2first.Url)
         }
 }
