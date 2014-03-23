@@ -1,6 +1,7 @@
 package main
 
 import (
+        "fmt"
         "os/exec"
         "regexp"
         "strings"
@@ -30,7 +31,8 @@ func main() {
         // fmt.Println(newsearch)
         // fmt.Println(cats)
         // fmt.Println(newcats)
-        RunServer()
+        fmt.Println(IplayerInfoOutput("234"))
+        //        RunServer()
 }
 
 // NewSearch - takes a map that contains either the category to search for, e.g. films,
@@ -134,4 +136,16 @@ func (i *IplayerIndex) Title() string {
         prelim := re.FindString(i.index)
         re = regexp.MustCompile("[A-Z0-9].*")
         return re.FindString(prelim)
+}
+
+// IplayerInfoOutput - takes a string index digit(s)
+// returns IplayerIndex struct with the output
+// of the iplayer info command as a string.
+func IplayerInfoOutput(s string) *IplayerIndex {
+        info := exec.Command("get_iplayer", "-i", s)
+        infoOut, err := info.Output()
+        if err != nil {
+                panic(err)
+        }
+        return &IplayerIndex{string(infoOut)}
 }
