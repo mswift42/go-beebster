@@ -114,3 +114,9 @@ func TestDescription(t *testing.T) {
                 t.Error("Expected Live coverage of the announcement of Commons business for the week ahead and questions to leader of the Commons Andrew Lansley., got: ", t1.Description())
         }
 }
+func TestInfoTitle(t *testing.T) {
+        t1 := IplayerIndex{infostring}
+        if t1.Title() != "Business Questions: 20/03/2014" {
+                t.Error("Expected Business Questions: 20/03/2014, got: ", t1.Title())
+        }
+}
