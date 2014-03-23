@@ -10,7 +10,14 @@
 <div class="infoform">
   <form class="form-inline" action={{.DownloadUrl}} role="form" method="post">
     <div class="form-group">
-
+      <select class="searchbutton" name="mode" label="download-modes">
+        {{range .Modes}}
+        <option value={{.}}>{{.}}</option>
+        {{end}}
+        </select>
+    </div>
+    <div class="form-group">
+      <input class="searchbutton" label="download-modes" type="submit" name="" value="Download"/>
     </div>
   </form>
 
