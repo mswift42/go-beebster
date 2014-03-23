@@ -37,7 +37,8 @@ func RunServer() {
                 iplayerinfo := &IplayerInfo{Thumbnail: ind.Thumb4(),
                         Description: ind.Description(),
                         Title:       ind.Title(),
-                        DownloadUrl: "/download?index=" + info}
+                        DownloadUrl: "/download?index=" + info,
+                        Modes:       ind.Modes()}
                 r.HTML(200, "info", iplayerinfo)
         })
         m.Run()
