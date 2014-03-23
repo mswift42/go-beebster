@@ -1,7 +1,6 @@
 package main
 
 import (
-        "fmt"
         "os/exec"
         "regexp"
         "strings"
@@ -31,8 +30,7 @@ func main() {
         // fmt.Println(newsearch)
         // fmt.Println(cats)
         // fmt.Println(newcats)
-        fmt.Println(IplayerInfoOutput("234"))
-        //        RunServer()
+        RunServer()
 }
 
 // NewSearch - takes a map that contains either the category to search for, e.g. films,
@@ -100,9 +98,11 @@ func thumbnail(s string) string {
 
 // IplayerInfo - for every iplayer programme,
 // this struct holds the url for a thumbnail of size 4,
-// the programmes title, and the long description.
+// the programmes title, the long description and
+// the available streamquality, e.g. flashhd
 type IplayerInfo struct {
-        Thumbnail, Description, Title string
+        Thumbnail, Description, Title, DownloadUrl string
+        Modes                                      []string
 }
 
 // IplayerIndex - every iplayer programme has a
@@ -136,6 +136,21 @@ func (i *IplayerIndex) Title() string {
         prelim := re.FindString(i.index)
         re = regexp.MustCompile("[A-Z0-9].*")
         return re.FindString(prelim)
+}
+
+// Modes - Collect available Stream Download modes
+// ranging from hd to low bitrate quality.
+func (i *IplayerIndex) Modes() []string {
+        re := regexp.MustCompile("modes.*")
+        prelim := re.FindString(i.index)
+        high := regexp.MustCompile("flashhigh")
+        vhigh := regexp.MustCompile("flashvhigh")
+        hd := regexp.MustCompile("flashhd")
+        low := regexp.MustCompile("flashlow")
+        modes := []string{high.FindString(prelim),
+                vhigh.FindString(prelim), hd.FindString(prelim),
+                low.FindString(prelim)}
+        return modes
 }
 
 // IplayerInfoOutput - takes a string index digit(s)
