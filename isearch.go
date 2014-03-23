@@ -99,3 +99,26 @@ func thumbnail(s string) string {
         re := regexp.MustCompile("http.*jpg")
         return re.FindString(s)
 }
+
+// IplayerInfo - for every iplayer programme,
+// this struct holds the url for a thumbnail of size 4,
+// the programmes title, and the long description.
+type IplayerInfo struct {
+        Thumbnail, Description, Title string
+}
+
+// IplayerIndex - every iplayer programme has a
+// unique index (1 to 4 digits), to facilitate
+// download and info about programmes.
+type IplayerIndex struct {
+        index string
+}
+
+// Thumb4 - find thumbnail of size 4 in iplayer search
+// output.
+func (i *IplayerIndex) Thumb4() string {
+        re := regexp.MustCompile("thumbnail4.*")
+        prelim := re.FindString(i)
+        re = regexp.MustCompile("htt.*")
+        return re.FindString(prelim)
+}
