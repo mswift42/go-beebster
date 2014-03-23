@@ -83,7 +83,11 @@ func searchResult(s map[string]string) (string, error) {
 
 func index(s string) string {
         re := regexp.MustCompile(`[0-9]*`)
-        return re.FindString(s)
+        nonempty := ""
+        if re.FindString(s) != "" {
+                nonempty = "/info?index=" + re.FindString(s)
+        }
+        return nonempty
 }
 func title(s string) string {
         re := regexp.MustCompile("jpg [A-Z0-9].*")
