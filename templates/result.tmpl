@@ -1,13 +1,13 @@
 <div class="rtable">
-  {{range .out}}
+  {{range .}}
   <div class="table">
     <div class="tablecell">
       <div class="t1">
-        <a href={{.index}}>{{.title}}</a>
-        <img class="img" src={{.thumbnail}} alt={{.title}}/>
+        <a href={{.Index}}>{{.Title}}</a>
+        <img class="img" src={{.Thumbnail}} alt={{.Title}}/>
       </div>
       <div class="imgtitle">
-        {{.title}}
+        {{.Title}}
       </div>
     </div>
   </div>
