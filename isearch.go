@@ -1,7 +1,6 @@
 package main
 
 import (
-        "fmt"
         "os/exec"
         "regexp"
         "strings"
@@ -31,9 +30,6 @@ func main() {
         // fmt.Println(newsearch)
         // fmt.Println(cats)
         // fmt.Println(newcats)
-        fmt.Println(Categoryinit())
-        fmt.Println(Categoryinit()[0])
-
         RunServer()
 }
 
@@ -118,7 +114,13 @@ type IplayerIndex struct {
 // output.
 func (i *IplayerIndex) Thumb4() string {
         re := regexp.MustCompile("thumbnail4.*")
-        prelim := re.FindString(i)
+        prelim := re.FindString(i.index)
         re = regexp.MustCompile("htt.*")
+        return re.FindString(prelim)
+}
+func (i *IplayerIndex) Description() string {
+        re := regexp.MustCompile("desc:.*")
+        prelim := re.FindString(i.index)
+        re = regexp.MustCompile("[A-Z].*")
         return re.FindString(prelim)
 }
