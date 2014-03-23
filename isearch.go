@@ -11,10 +11,10 @@ import (
 // title of programme, thumbnail url, and the programmes'
 // iplayer index.
 type Searchresult struct {
-        title         string
-        thumbnail     string
-        index         string
-        oldrecordings string
+        Title         string
+        Thumbnail     string
+        Index         string
+        Oldrecordings string
 }
 
 // Category struct - holds name of an iplayer category
@@ -52,7 +52,7 @@ func NewSearch(s map[string]string) []Searchresult {
                 strings.Replace(string(isoOut)[:infpos[0]], "Matches:", "", 1), "\n")
         result := make([]Searchresult, 0)
         for _, i := range isoOutslice {
-                new := Searchresult{title: title(i), index: index(i), thumbnail: thumbnail(i)}
+                new := Searchresult{Title: title(i), Index: index(i), Thumbnail: thumbnail(i)}
                 if new != (Searchresult{}) {
                         result = append(result, new)
                 }
