@@ -1,7 +1,6 @@
 package main
 
 import (
-        "fmt"
         "github.com/codegangsta/martini"
         "github.com/martini-contrib/render"
         "net/http"
@@ -29,7 +28,6 @@ func RunServer() {
                 resmap := map[string]string{"category": "",
                         "searchvalue": sv}
                 out := NewSearch(resmap)
-                fmt.Println(out)
                 r.HTML(200, "result", out)
         })
         m.Get("/info", func(r render.Render, re *http.Request) {
@@ -37,7 +35,9 @@ func RunServer() {
 
                 ind := IplayerInfoOutput(info)
                 iplayerinfo := &IplayerInfo{Thumbnail: ind.Thumb4(),
-                        Description: ind.Description(), Title: ind.Title()}
+                        Description: ind.Description(),
+                        Title:       ind.Title(),
+                        DownloadUrl: "/download?index=" + info}
                 r.HTML(200, "info", iplayerinfo)
         })
         m.Run()
