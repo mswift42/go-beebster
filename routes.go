@@ -32,5 +32,13 @@ func RunServer() {
                 fmt.Println(out)
                 r.HTML(200, "result", out)
         })
+        m.Get("/info", func(r render.Render, re *http.Request) {
+                info := re.URL.Query().Get("index")
+
+                ind := IplayerInfoOutput(info)
+                iplayerinfo := &IplayerInfo{Thumbnail: ind.Thumb4(),
+                        Description: ind.Description(), Title: ind.Title()}
+                r.HTML(200, "info", iplayerinfo)
+        })
         m.Run()
 }
