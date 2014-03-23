@@ -99,18 +99,3 @@ func thumbnail(s string) string {
         re := regexp.MustCompile("http.*jpg")
         return re.FindString(s)
 }
-
-// Categories - Array with iplayer categories.
-var Categories = []string{"popular", "highlights", "films", "nature", "crime",
-        "sitcom", "thriller", "legal", "sport"}
-
-// Categoryinit - iterate over Categoriesarray. For every
-// string, build a Category struct with Name and Url
-// instances, and collect them.
-func Categoryinit() []Category {
-        result := make([]Category, len(Categories))
-        for i, name := range Categories {
-                result[i] = Category{Name: name, Url: ("/results?category=" + name)}
-        }
-        return result
-}
