@@ -118,9 +118,20 @@ func (i *IplayerIndex) Thumb4() string {
         re = regexp.MustCompile("htt.*")
         return re.FindString(prelim)
 }
+
+// Description - find long description in iplayer search
+// output.
 func (i *IplayerIndex) Description() string {
         re := regexp.MustCompile("desc:.*")
         prelim := re.FindString(i.index)
         re = regexp.MustCompile("[A-Z].*")
+        return re.FindString(prelim)
+}
+
+// Title - find title in iplayer search output.
+func (i *IplayerIndex) Title() string {
+        re := regexp.MustCompile("title:.*")
+        prelim := re.FindString(i.index)
+        re = regexp.MustCompile("[A-Z0-9].*")
         return re.FindString(prelim)
 }
