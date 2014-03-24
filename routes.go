@@ -41,5 +41,11 @@ func RunServer() {
                         Modes:       ind.Modes()}
                 r.HTML(200, "info", iplayerinfo)
         })
+        m.Get("/categories", func(r render.Render, re *http.Request) {
+                cat := re.URL.Query().Get("category")
+                catmap := map[string]string{"category": cat}
+                out := NewSearch(catmap)
+                r.HTML(200, "result", out)
+        })
         m.Run()
 }
