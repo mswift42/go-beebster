@@ -24,12 +24,6 @@ type Category struct {
 }
 
 func main() {
-        // newsearch := NewSearch(map[string]string{"category": "", "searchvalue": "pramface"})
-        // cats := NewSearch(map[string]string{"category": "legal"})
-        // newcats := NewSearch(map[string]string{"category": "films"})
-        // fmt.Println(newsearch)
-        // fmt.Println(cats)
-        // fmt.Println(newcats)
         RunServer()
 }
 
