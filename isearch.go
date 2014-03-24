@@ -2,7 +2,6 @@ package main
 
 import (
         "os/exec"
-        "os/user"
         "regexp"
         "strings"
 )
@@ -102,8 +101,8 @@ func thumbnail(s string) string {
 // the programmes title, the long description and
 // the available streamquality, e.g. flashhd
 type IplayerInfo struct {
-        Thumbnail, Description, Title, DownloadUrl string
-        Modes                                      []string
+        Thumbnail, Description, Title, DownloadUrl, ImdbUrl string
+        Modes                                               []string
 }
 
 // IplayerIndex - every iplayer programme has a
@@ -151,7 +150,16 @@ func (i *IplayerIndex) Modes() []string {
         modes := []string{high.FindString(prelim),
                 vhigh.FindString(prelim), hd.FindString(prelim),
                 low.FindString(prelim)}
+        for _, i := range modes {
+                if i == "" {
+                        strings.TrimSuffix(i, "")
+                }
+        }
         return modes
+}
+func (i *IplayerIndex) ImdbUrl() string {
+        rstring := strings.Replace(i.index, " ", "+", -1)
+        return "http://imdb.com/find?q=" + rstring
 }
 
 // IplayerInfoOutput - takes a string index digit(s)
@@ -170,12 +178,8 @@ func IplayerInfoOutput(s string) *IplayerIndex {
 // and starts the download of said programmme by opening
 // a gnome-terminal and invoking get_iplayer
 func DownloadProgramme(index, mode string) {
-        dir, err := user.Current()
-        if err != nil {
-                panic(err)
-        }
-        cmd := exec.Command("gnome-terminal", "--working-directory=",
-                dir.HomeDir+"/Videos/", "-e",
+        cmd := exec.Command("gnome-terminal", "--working-directory=/home/severin/Videos/",
+                "-e",
                 "get_iplayer --modes="+mode+"1"+" -g "+index)
         cmd.Run()
 }
