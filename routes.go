@@ -38,7 +38,8 @@ func RunServer() {
                         Description: ind.Description(),
                         Title:       ind.Title(),
                         DownloadUrl: "/download?index=" + info,
-                        Modes:       ind.Modes()}
+                        Modes:       ind.Modes(),
+                        ImdbUrl:     ind.Imdb()}
                 r.HTML(200, "info", iplayerinfo)
         })
         m.Get("/categories", func(r render.Render, re *http.Request) {
