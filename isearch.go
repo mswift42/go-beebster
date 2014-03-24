@@ -138,6 +138,17 @@ func (i *IplayerIndex) Title() string {
         return re.FindString(prelim)
 }
 
+// Imdb - find nameshort in iplayer search output
+// and add it to the url of imdb. Replace spaces with + sign
+// to gen url query url.
+func (i *IplayerIndex) Imdb() string {
+        re := regexp.MustCompile("nameshort:.*")
+        prelim := re.FindString(i.index)
+        re = regexp.MustCompile("[A-Z0-9].*")
+        query := strings.Replace(re.FindString(prelim), " ", "+", -1)
+        return "http://imdb.com/find?q=" + query
+}
+
 // Modes - Collect available Stream Download modes
 // ranging from hd to low bitrate quality.
 func (i *IplayerIndex) Modes() []string {
@@ -156,10 +167,6 @@ func (i *IplayerIndex) Modes() []string {
                 }
         }
         return modes
-}
-func (i *IplayerIndex) ImdbUrl() string {
-        rstring := strings.Replace(i.index, " ", "+", -1)
-        return "http://imdb.com/find?q=" + rstring
 }
 
 // IplayerInfoOutput - takes a string index digit(s)
