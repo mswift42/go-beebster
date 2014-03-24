@@ -47,5 +47,11 @@ func RunServer() {
                 out := NewSearch(catmap)
                 r.HTML(200, "result", out)
         })
+        m.Any("/download", func(r render.Render, re *http.Request) {
+                index := re.URL.Query().Get("index")
+                mode := re.FormValue("mode")
+                r.HTML(200, "download", "Downlod")
+                DownloadProgramme(index, mode)
+        })
         m.Run()
 }
