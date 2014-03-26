@@ -97,6 +97,7 @@ func thumbnail(s string) string {
 type IplayerInfo struct {
         Thumbnail, Description, Title, DownloadUrl, ImdbUrl string
         Modes                                               []string
+        Pagetitle                                           string
 }
 
 // IplayerIndex - every iplayer programme has a
@@ -183,4 +184,10 @@ func DownloadProgramme(index, mode string) {
                 "-e",
                 "get_iplayer --modes="+mode+"1"+" -g "+index)
         cmd.Run()
+}
+
+// refresh get_iplayer's index
+func init() {
+        cmd := exec.Command("get_iplayer", "--refresh")
+        cmd.Start()
 }
