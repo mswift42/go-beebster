@@ -6,20 +6,17 @@ import (
         "net/http"
 )
 
-type result struct {
-        searchvalue string `form:"searchvalue"`
-}
-
 func RunServer() {
         //        cats := Categoryinit()
         m := martini.Classic()
         m.Use(render.Renderer(render.Options{Layout: "layout",
                 Directory: "templates"}))
         m.Get("/", func(r render.Render) {
-                r.HTML(200, "index", "index")
+                r.HTML(200, "index", map[string]interface{}{"pagetitle": "Search"})
         })
         m.Get("/about", func(r render.Render) {
-                r.HTML(200, "about", "about")
+                r.HTML(200, "about",
+                        map[string]interface{}{"pagetitle": "About"})
 
         })
 
@@ -28,7 +25,9 @@ func RunServer() {
                 resmap := map[string]string{"category": "",
                         "searchvalue": sv}
                 out := NewSearch(resmap)
-                r.HTML(200, "result", out)
+                r.HTML(200, "result",
+                        map[string]interface{}{"pagetitle": "Results",
+                                "results": out})
         })
         m.Get("/info", func(r render.Render, re *http.Request) {
                 info := re.URL.Query().Get("index")
