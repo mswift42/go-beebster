@@ -53,7 +53,7 @@ func RunServer() {
         m.Any("/download", func(r render.Render, re *http.Request) {
                 index := re.URL.Query().Get("index")
                 mode := re.FormValue("mode")
-                r.HTML(200, "download", "Downlod")
+                r.HTML(200, "download", map[string]interface{}{"Pagetitle": "Download"})
                 DownloadProgramme(index, mode)
         })
         m.Run()
