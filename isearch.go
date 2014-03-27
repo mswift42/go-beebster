@@ -27,6 +27,11 @@ func main() {
         RunServer()
 }
 
+// refresh get_iplayer's index
+func init() {
+        exec.Command("get_iplayer", "--refresh").Start()
+}
+
 // NewSearch - takes a map that contains either the category to search for, e.g. films,
 // or a searchstring to run the get_iplayer command with.
 // for every found match, a Searchresult struct gets initialized with the
@@ -184,10 +189,4 @@ func DownloadProgramme(index, mode string) {
                 "-e",
                 "get_iplayer --modes="+mode+"1"+" -g "+index)
         cmd.Run()
-}
-
-// refresh get_iplayer's index
-func init() {
-        cmd := exec.Command("get_iplayer", "--refresh")
-        cmd.Start()
 }
