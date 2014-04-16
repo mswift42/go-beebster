@@ -1,42 +1,56 @@
 package main
 
 import (
-        "testing"
+	"testing"
 )
 
 var rstring1 = "987 http://www.bbc.co.uk/iplayer/images/episode/b03wtmlq_150_84.jpg Silk: Series 3 Episode 1"
 
 var rstring2 = "988 http://www.bbc.co.uk/iplayer/images/episode/b03xkk94_150_84.jpg Silk: Series 3 Episode 2"
 
+var oldrec1 = `Matches:
+390:	From This Day Forward - -, BBC Two, Drama,Films,Relationships & Romance,TV, default
+980:	Shooting Dogs - -, BBC Two, Drama,Films,Guidance,HD,TV,War & Disaster, default,
+1048:	Suspicion - -, BBC Two, Drama,Films,TV,Thriller, default
+1212:	The Westerner - -, BBC Two, Action & Adventure,Drama,Films,TV, default
+
+INFO: 4 Matching Programmes
+
+These programmes should be deleted:
+-----------------------------------
+Coco Chanel & Igor Stravinsky - Coco Chanel & Igor Stravinsky, Recorded: 30 days 8 hours ago
+-----------------------------------
+Do you wish to delete them now (Yes/No) ?`
+
 func TestIndex(t *testing.T) {
-        t1 := index(rstring1)
-        t2 := index(rstring2)
-        if t1 != "/info?index=987" {
-                t.Error("Expected /info?index=987 got: ", t1)
-        } else if t2 != "/info?index=988" {
-                t.Error("Expected ?info?index=988 got: ", t2)
-        }
+	t1 := index(rstring1)
+	t2 := index(rstring2)
+	if t1 != "/info?index=987" {
+		t.Error("Expected /info?index=987 got: ", t1)
+	} else if t2 != "/info?index=988" {
+		t.Error("Expected ?info?index=988 got: ", t2)
+	}
 }
 
 func TestThumbnail(t *testing.T) {
-        t1 := thumbnail(rstring1)
-        t2 := thumbnail(rstring2)
+	t1 := thumbnail(rstring1)
+	t2 := thumbnail(rstring2)
 
-        if t1 != "http://www.bbc.co.uk/iplayer/images/episode/b03wtmlq_150_84.jpg" {
-                t.Error("Expected http://www.bbc.co.uk/iplayer/images/episode/b03wtmlq_150_84.jpg, got ", t1)
-        } else if t2 != "http://www.bbc.co.uk/iplayer/images/episode/b03xkk94_150_84.jpg" {
-                t.Error("Expected http://www.bbc.co.uk/iplayer/images/episode/b03xkk94_150_84.jpg, got ", t2)
-        }
+	if t1 != "http://www.bbc.co.uk/iplayer/images/episode/b03wtmlq_150_84.jpg" {
+		t.Error("Expected http://www.bbc.co.uk/iplayer/images/episode/b03wtmlq_150_84.jpg, got ", t1)
+	} else if t2 != "http://www.bbc.co.uk/iplayer/images/episode/b03xkk94_150_84.jpg" {
+		t.Error("Expected http://www.bbc.co.uk/iplayer/images/episode/b03xkk94_150_84.jpg, got ", t2)
+	}
 }
 
 func TestTitle(t *testing.T) {
-        t1 := title(rstring1)
-        t2 := title(rstring2)
-        if t1 != "Silk: Series 3 Episode 1" {
-                t.Error("Expeced Silk: Series 3 Episode 1, got: ", t1)
-        } else if t2 != "Silk: Series 3 Episode 2" {
-                t.Error("Expected Silk: Series 3 Episode 2, got: ", t2)
-        }
+	t1 := title(rstring1)
+	t2 := title(rstring2)
+	if t1 != "Silk: Series 3 Episode 1" {
+		t.Error("Expeced Silk: Series 3 Episode 1, got: ", t1)
+	} else if t2 != "Silk: Series 3 Episode 2" {
+		t.Error("Expected Silk: Series 3 Episode 2, got: ", t2)
+	}
 }
 
 var infostring = `get_iplayer v2.83, Copyright (C) 2008-2010 Phil Lewis
@@ -68,20 +82,36 @@ INFO: 1 Matching Programmes
 `
 
 func TestThumb4(t *testing.T) {
-        t1 := IplayerIndex{infostring}
-        if t1.Thumb4() != "http://ichef.bbci.co.uk/programmeimages/p01lcfn2/b03yrkz5_512_288.jpg" {
-                t.Error("Expected http://ichef.bbci.co.uk/programmeimages/p01lcfn2/b03yrkz5_512_288.jpg, got: ", t1.Thumb4())
-        }
+	t1 := IplayerIndex{infostring}
+	if t1.Thumb4() != "http://ichef.bbci.co.uk/programmeimages/p01lcfn2/b03yrkz5_512_288.jpg" {
+		t.Error("Expected http://ichef.bbci.co.uk/programmeimages/p01lcfn2/b03yrkz5_512_288.jpg, got: ", t1.Thumb4())
+	}
 }
 func TestDescription(t *testing.T) {
-        t1 := IplayerIndex{infostring}
-        if t1.Description() != "Live coverage of the announcement of Commons business for the week ahead and questions to leader of the Commons Andrew Lansley." {
-                t.Error("Expected Live coverage of the announcement of Commons business for the week ahead and questions to leader of the Commons Andrew Lansley., got: ", t1.Description())
-        }
+	t1 := IplayerIndex{infostring}
+	if t1.Description() != "Live coverage of the announcement of Commons business for the week ahead and questions to leader of the Commons Andrew Lansley." {
+		t.Error("Expected Live coverage of the announcement of Commons business for the week ahead and questions to leader of the Commons Andrew Lansley., got: ", t1.Description())
+	}
 }
 func TestInfoTitle(t *testing.T) {
-        t1 := IplayerIndex{infostring}
-        if t1.Title() != "Business Questions: 20/03/2014" {
-                t.Error("Expected Business Questions: 20/03/2014, got: ", t1.Title())
-        }
+	t1 := IplayerIndex{infostring}
+	if t1.Title() != "Business Questions: 20/03/2014" {
+		t.Error("Expected Business Questions: 20/03/2014, got: ", t1.Title())
+	}
+}
+func TestIsOldRecording(t *testing.T) {
+	t1 := isoldRec(oldrec1)
+	if t1 != true {
+		t.Error("Exptected false, got: ", t1)
+	}
+}
+func TestOldRecording(t *testing.T) {
+	t1 := listOldRecordings(oldrec1)
+	if t1 != `These programmes should be deleted:
+-----------------------------------
+Coco Chanel & Igor Stravinsky - Coco Chanel & Igor Stravinsky, Recorded: 30 days 8 hours ago
+-----------------------------------
+Do you wish to delete them now (Yes/No) ?` {
+		t.Error("Expected hoden, got: ", t1)
+	}
 }
