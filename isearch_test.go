@@ -115,3 +115,11 @@ Do you wish to delete them now (Yes/No) ?` {
 		t.Error("Expected hoden, got: ", t1)
 	}
 }
+
+func TestOldRec(t *testing.T) {
+	old := listOldRecordings(oldrec1)
+	oldslice := oldrecslice(old)
+	if oldslice[0] != "Coco" {
+		t.Error("Expected <Coco> , got: ", oldslice)
+	}
+}
