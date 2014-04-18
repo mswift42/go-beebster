@@ -1,5 +1,15 @@
 <div class="rtable">
+  <h2 class="header">Results</h2>
   {{range .results}}
+  {{if .Oldrecordings}}
+  <br/>
+  <div class="header">
+    <p>{{.Oldrecordings}}</p>
+  </div>
+</div>
+  {{end}}
+
+{{if .Title}}
   <div class="table">
     <div class="tablecell">
       <div class="t1">
@@ -12,5 +22,6 @@
       </div>
     </div>
   </div>
+  {{end}}
   {{end}}
 </div>

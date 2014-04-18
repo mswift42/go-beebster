@@ -48,12 +48,16 @@ func NewSearch(s map[string]string) []Searchresult {
 		strings.Replace(string(isoOut)[:infpos[0]], "Matches:", "", 1), "\n")
 	result := make([]Searchresult, 0)
 	if isoldRec(string(isoOut)) {
-		for _, i := range strings.Split(listOldRecordings(string(isoOut)), "") {
-			new := Searchresult{Oldrecordings: oldrec(i)}
-			if new != (Searchresult{}) {
-				result = append(result, new)
+		recstring := strings.Split(listOldRecordings(isoOut), "\n")
+		for _, i := range recstring {
+			if i == "Do you wish to delete them now (Yes/No) ?" {
+				break
 			}
+			new := Searchresult{Oldrecordings: i}
+			result = append(result, new)
 		}
+
+		return result
 	}
 
 	for _, i := range isoOutslice {
@@ -117,6 +121,10 @@ func listOldRecordings(s string) string {
 func oldrec(s string) string {
 	re := regexp.MustCompile("[A-Z0-9].*")
 	return re.FindString(s)
+}
+func oldrecslice(s string) []string {
+	re := regexp.MustCompile("[A-Z0-9].*")
+	return re.FindAllString(s, -1)
 }
 
 // IplayerInfo - for every iplayer programme,
