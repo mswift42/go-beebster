@@ -20,7 +20,8 @@ div.oldrec {
     }
 
 .navbar {
-    background-color: #5e00ff;
+    background-color: #3c3c3c;
+    border-color:#2c2c2c;
 }
 
 .form-control {
