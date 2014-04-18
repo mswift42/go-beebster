@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+  <head>
       <title>Beebster - {{.Pagetitle}}
       </title>
       <link href="bootstrap.min.css" rel="stylesheet"/>
@@ -8,7 +8,7 @@
     </head>
     <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="navbar-inner">
+      <div class="navbar-inner">
          <div class="container-fluid">
               <ul class="nav navbar-nav navbar-left">
                             <li class="active">
@@ -45,9 +45,19 @@
                               <a href="/categories?category=legal">legal</a>
                             </li>
               </ul>
+              <div class="navbarheader">
+
+
+
+              <ul class="nav navbar-nav navbar-right">
+                                  <li class="active">
+                                    <p class="navbar-text pull-right">Go-Beebster</p>
+                                  </li>
+                                </ul>
+                            </div>
          </div>
-    </div>
-    </nav>
-    {{ yield }}
-    </body>
+        </div>
+        </nav>
+        {{ yield }}
+        </body>
 </html>

@@ -24,7 +24,7 @@ div.oldrec {
     border-color:#2c2c2c;
 }
 
-.navbar-inner {
+/* .navbar-inner {
  background-image: -moz-linear-gradient(top, #333333, #222222);
   background-image: -ms-linear-gradient(top, #333333, #222222);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333333), to(#222222));
@@ -33,7 +33,7 @@ div.oldrec {
   background-image: linear-gradient(top, #333333, #222222);
   background-repeat: repeat-x;
 }
-.nav navbar-nav {
+ */.nav navbar-nav {
     background-color:#3c3c3c;
 }
 .form-control {
