@@ -24,20 +24,20 @@ Install [get-iplayer](https://github.com/dinkypumpkin/get_iplayer).
 
 Install the [martini](https://github.com/codegangsta/martini) dependencies:
 
-<code>go get github.com/codegangsta/martini</code>
-<code>go get github.com/martini-contrib/render</code>
+    go get github.com/codegangsta/martini
+    go get github.com/martini-contrib/render
 
 Clone this repository:
 
-<code>git clone https://github.com/mswift42/go-beebster/</code>
+    git clone https://github.com/mswift42/go-beebster/
 
 To build go-beebster, cd into the directory and:
 
-<code>go build</code>
+    go build
 
 To run the programme, change into the directory and
 
-<code>./go-beebster</code>
+    ./go-beebster
 
 
 Screenshots:
