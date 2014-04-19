@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// Searchresult struct - holds for each searchresult
+// Searchresult struct - holds for each search result
 // title of programme, thumbnail url, and the programmes'
 // iplayer index.
 type Searchresult struct {
@@ -36,8 +36,8 @@ func init() {
 }
 
 // NewSearch - takes a map that contains either the category to search for, e.g. films,
-// or a searchstring to run the get_iplayer command with.
-// for every found match, a Searchresult struct gets initialized with the
+// or a search string to run the get_iplayer command with.
+// for every found match, a Search result struct gets initialized with the
 // index, thumbnail and title for the given match.
 func NewSearch(s map[string]string) []Searchresult {
 	isoOut, err := searchResult(s)
@@ -93,9 +93,9 @@ func searchResult(s map[string]string) (string, error) {
 }
 
 // index - takes an iplayer search result
-// and returns the index consiting of a string
+// and returns the index consisting of a string
 // of 1 - 4 digits.
-// index("233 http://...jpg Some proamme") -> "233"
+// index("233 http://...jpg Some programme") -> "233"
 func index(s string) string {
 	re := regexp.MustCompile(`[0-9]*`)
 	nonempty := ""
@@ -133,7 +133,7 @@ func isoldRec(s string) bool {
 }
 
 // listOldRecordings - returns a string of
-// all downloaded proammes, that have been
+// all downloaded programmes, that have been
 // stored for > 30 days.
 func listOldRecordings(s string) string {
 	re := regexp.MustCompile("These programmes.*")
@@ -144,7 +144,7 @@ func listOldRecordings(s string) string {
 // IplayerInfo - for every iplayer programme,
 // this struct holds the url for a thumbnail of size 4,
 // the programmes title, the long description and
-// the available streamquality, e.g. flashhd
+// the available stream quality, e.g. flashhd
 type IplayerInfo struct {
 	Thumbnail, Description, Title, DownloadUrl, ImdbUrl string
 	Modes                                               []string
