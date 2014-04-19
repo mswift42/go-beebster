@@ -37,6 +37,8 @@ func init() {
 
 // NewSearch - takes a map that contains either the category to search for, e.g. films,
 // or a search string to run the get_iplayer command with.
+// If get_iplayer complains about old recorded programmes, return an array
+// listing all recordings > 30 days. Otherwise,
 // for every found match, a Search result struct gets initialized with the
 // index, thumbnail and title for the given match.
 func NewSearch(s map[string]string) []Searchresult {
