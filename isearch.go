@@ -92,6 +92,10 @@ func searchResult(s map[string]string) (string, error) {
 	return string(isoOut), err
 }
 
+// index - takes an iplayer search result
+// and returns the index consiting of a string
+// of 1 - 4 digits.
+// index("233 http://...jpg Some proamme") -> "233"
 func index(s string) string {
 	re := regexp.MustCompile(`[0-9]*`)
 	nonempty := ""
@@ -100,33 +104,41 @@ func index(s string) string {
 	}
 	return nonempty
 }
+
+// title - takes an iplayer search result
+// and returns the programme's title
+// title("232 http://...jpg Some Programme") -> "Some Programme"
 func title(s string) string {
 	re := regexp.MustCompile("jpg [A-Z0-9].*")
 	prelim := re.FindString(s)
 	re = regexp.MustCompile("[A-Z0-9].*")
 	return re.FindString(prelim)
 }
+
+// thumbnail - takes an iplayer search result
+// and returns the url for it's thumbnail
+// thumbnail("232 http://...jpg Some Programme") -> "http://...jpg"
 func thumbnail(s string) string {
 	re := regexp.MustCompile("http.*jpg")
 	return re.FindString(s)
 }
+
+// isoldRec - if with get_iplayer downloaded programmes
+// are stored for > 30 days, get_iplayer prints a
+// list of all to be deleted programmes.
+// isoldRec checks for the existence of this message.
 func isoldRec(s string) bool {
 	re := regexp.MustCompile("These programmes.*")
 	return re.MatchString(s)
 }
 
+// listOldRecordings - returns a string of
+// all downloaded proammes, that have been
+// stored for > 30 days.
 func listOldRecordings(s string) string {
 	re := regexp.MustCompile("These programmes.*")
 	pos := re.FindStringIndex(s)
 	return s[pos[0]:]
-}
-func oldrec(s string) string {
-	re := regexp.MustCompile("[A-Z0-9].*")
-	return re.FindString(s)
-}
-func oldrecslice(s string) []string {
-	re := regexp.MustCompile("[A-Z0-9].*")
-	return re.FindAllString(s, -1)
 }
 
 // IplayerInfo - for every iplayer programme,
