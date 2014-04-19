@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"os/exec"
+	"os/user"
 	"regexp"
 	"strings"
 )
@@ -218,8 +220,12 @@ func IplayerInfoOutput(s string) *IplayerIndex {
 // and starts the download of said programmme by opening
 // a gnome-terminal and invoking get_iplayer
 func DownloadProgramme(index, mode string) {
-	cmd := exec.Command("gnome-terminal", "--working-directory=/home/severin/Videos/",
+	usr, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+	}
+	cmd := exec.Command("gnome-terminal", "--working-directory="+usr.HomeDir+"/Videos",
 		"-e",
 		"get_iplayer --modes="+mode+"1"+" -g "+index+" --flvstreamer=/usr/bin/flvstreamer")
-	cmd.Run()
+	cmd.Start()
 }
