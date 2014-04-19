@@ -1,4 +1,4 @@
-beebster implementation in Go
+Go-Beebster
 =============================
 
 Go-Beebster is a Web Gui frontend for [get_iplayer](http://www.infradead.org/get_iplayer/html/get_iplayer.html).
