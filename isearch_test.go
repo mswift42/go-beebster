@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -105,21 +106,11 @@ func TestIsOldRecording(t *testing.T) {
 		t.Error("Exptected false, got: ", t1)
 	}
 }
-func TestOldRecording(t *testing.T) {
-	t1 := listOldRecordings(oldrec1)
-	if t1 != `These programmes should be deleted:
------------------------------------
-Coco Chanel & Igor Stravinsky - Coco Chanel & Igor Stravinsky, Recorded: 30 days 8 hours ago
------------------------------------
-Do you wish to delete them now (Yes/No) ?` {
-		t.Error("Expected hoden, got: ", t1)
-	}
-}
 
 func TestOldRec(t *testing.T) {
 	old := listOldRecordings(oldrec1)
-	oldslice := oldrecslice(old)
-	if oldslice[0] != "Coco" {
-		t.Error("Expected <Coco> , got: ", oldslice)
+	oldslice := strings.Split(old, "\n")
+	if oldslice[2] != "Coco Chanel & Igor Stravinsky - Coco Chanel & Igor Stravinsky, Recorded: 30 days 8 hours ago" {
+		t.Error("Expected <Coco Chanel ...> , got: ", oldslice[2])
 	}
 }
