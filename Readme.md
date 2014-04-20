@@ -39,6 +39,15 @@ To run the programme, change into the directory and
 
     ./go-beebster
 
+Now open a browser at `localhost:3000` and you are good to go.
+
+Configuration:
+==============
+
+By default, Go-beebster uses `gnome-terminal` to download programmes.
+If you'd like to use a different terminal program, adapt the function `DownloadProgramme` in `isearch.go`
+
+
 
 Screenshots:
 ============
