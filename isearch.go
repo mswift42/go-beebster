@@ -240,6 +240,6 @@ func DownloadProgramme(index, mode string) {
 	}
 	cmd := exec.Command("gnome-terminal", "--working-directory="+usr.HomeDir+"/Videos",
 		"-e",
-		"get_iplayer --modes="+mode+"1"+" -g "+index+" --flvstreamer=/usr/bin/flvstreamer")
+		"get_iplayer --modes="+mode+"1"+" -g "+index)
 	cmd.Start()
 }
